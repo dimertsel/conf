@@ -1,0 +1,37 @@
+# sshd_config(5)
+# sshd(8)
+# ssh(1)
+
+AddressFamily inet
+ListenAddress 0.0.0.0:22
+Protocol 2
+Ciphers aes256-ctr
+PrintMotd no
+
+TCPKeepAlive yes
+ClientAliveCountMax 12
+ClientAliveInterval 10
+
+UseDNS no
+Subsystem sftp /usr/libexec/openssh/sftp-server
+X11Forwarding no
+
+SyslogFacility AUTHPRIV
+LogLevel INFO
+
+LoginGraceTime 30
+MaxAuthTries 2
+MaxStartups 2
+MaxSessions 10
+PermitRootLogin no
+
+AllowGroups ssh_access
+StrictModes no
+
+
+UsePAM yes
+HostbasedAuthentication no
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+PubkeyAuthentication yes
+
