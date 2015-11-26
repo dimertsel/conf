@@ -1,0 +1,109 @@
+# nginx(8)
+# http://nginx.org/ru/docs/beginners_guide.html
+
+
+# user - указывает на учётную запись того пользователя в системе, с правами
+# которого будут запускаться worker_processes 
+# user nginx nginx; - явное указания пользователя и группы
+user  nginx;
+
+# worker_processes - количество дочерних процессов, которые запускаются
+# при старте nginx
+# worker process - дочерний процесс, который занимается обработкой входящих запросов
+# для обеспечения наилучшей производительности рекомендуется устанавливать значение 
+# worker_processes = количество ядер, утсановленных в системе
+# в случае, если указано в качестве значения auto, то - nginx автоматически 
+# подстраивается под ту или иную систему и запускает необходимое количество
+# worker processes
+worker_processes  auto;
+
+# error_log - полный путь к лог-файлу, который используется для записи сообщений
+# об ошибках; второй аргумент - степень детализации сообщений в лог-файле
+error_log  /var/log/nginx/error.log warn;
+
+# pid - полный путь к файлу pid - запись числового идентификатора главного 
+# процесса nginx при старте
+pid        /var/run/nginx.pid;
+
+events {
+# worker_connections - max количество соединений, обрабатываемых одним
+# worker_process
+    worker_connections  1024;
+}
+
+
+http {
+# include - вставка в указанное место содержимого того или иного файла
+# mime types - позволяют связать типы файлов(по их содержимому) с их
+# расширениями
+    include       /etc/nginx/mime.types;
+   
+# default_type - определяет mime type, используемый по умолчанию
+    default_type  application/octet-stream;
+
+# log_format - определяет формат сообщений, которые запишутся в тот
+# или иной лог-файл
+# 1 аргумент - идентификатор формата; 2 - описание самого формата,
+# что записывается в лог-файл ( $ - обозначение внутренних переменных)
+# http://nginx.org/en/docs/varindex.html
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+# access_log - полный путь к лог-файлу и формат для его ведения
+    access_log  /var/log/nginx/access.log  main;
+
+# sendfile - включает/выключает использование системного вызова 
+# sendfile(2), рекомендуется вкл для увеличения производительности nginx
+    sendfile        on;
+
+# keepalive_timeout - таймаут, в течение которого keep-alive соединение с клиентом
+# не будет закрыто ос стороны сервера
+    keepalive_timeout  65;
+   
+    server {
+# listen - указание прослушиваемого сокета
+# listen <IP>:<PORT> - явное указание прослушиваемого сокета
+# если IP не указан - прослушивание всех доступных интерфейсов
+        listen 80;
+
+# server_name - имя виртуального сервера, на которое он будет
+# отзываться, если данное имя присутствует в URL, который
+# мы запрашиваем
+        server_name mynginx.ipap.local;
+       
+        location / {
+# root - путь к каталогу, где лежат файлы, которые будет отдавать
+# nginx при запросе
+            root /var/www/html/lawfirm;
+# index - имя индексного файла, отдаваемого при указании неполного URL
+            index index.html;
+       }
+   }
+    
+    server {
+        listen 80;
+        server_name mynginx2.ipap.local;
+        
+        location / {
+            root /var/www/html/beachresort;
+            index index.html;
+        }
+    }
+
+    server {
+        listen 80;
+        server_name "";
+        return 444;
+   }
+   
+   server {
+        listen 80;
+        server_name mynginx3.ipap.local;
+        
+        location / {
+            root /var/www/html/summercamp;
+            index index.html;
+        }
+   }
+}
