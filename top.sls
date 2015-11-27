@@ -6,3 +6,6 @@ base:
     - states/packages
     - states/nginx-static
     
+  'spec*':
+    - states/pbu/common
+    - states/pbu/workstation

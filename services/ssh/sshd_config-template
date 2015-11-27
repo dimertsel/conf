@@ -1,0 +1,42 @@
+# sshd_config(5)
+# sshd(8)
+# ssh(1)
+
+AddressFamily inet
+ListenAddress 0.0.0.0:22
+Protocol 2
+Ciphers aes256-ctr
+PrintMotd no
+
+TCPKeepAlive yes
+ClientAliveCountMax 12
+ClientAliveInterval 10
+
+UseDNS no
+
+SyslogFacility AUTHPRIV
+LogLevel INFO
+
+LoginGraceTime 30
+MaxAuthTries 2
+MaxStartups 2
+MaxSessions 10
+
+{% if grains['osfullname'] == 'CentOS' %}
+PermitRootLogin no
+AllowGroups ssh_access
+PasswordAuthentication no
+Subsystem sftp /usr/libexec/openssh/sftp-server
+X11Forwarding no
+{% elif grains['osfullname'] == 'Ubuntu' %}
+PermitRootLogin yes
+PasswordAuthentication yes
+Subsystem sftp /usr/lib/openssh/sftp-server
+X11Forwarding yes
+{% endif %}
+
+StrictModes no
+UsePAM yes
+HostbasedAuthentication no
+ChallengeResponseAuthentication no
+PubkeyAuthentication yes

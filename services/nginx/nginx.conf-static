@@ -30,37 +30,11 @@ http {
    
     server {
         listen 80;
-        server_name mynginx.ipap.local;
+        server_name {{ grains['fqdn'] }};
        
         location / {
-            root /var/www/html/lawfirm;
+            root /var/www/html/{{ grains['fqdn'] }};
             index index.html;
        }
-   }
-    
-    server {
-        listen 80;
-        server_name mynginx2.ipap.local;
-        
-        location / {
-            root /var/www/html/beachresort;
-            index index.html;
-        }
-    }
-
-    server {
-        listen 80;
-        server_name "";
-        return 444;
-   }
-   
-   server {
-        listen 80;
-        server_name mynginx3.ipap.local;
-        
-        location / {
-            root /var/www/html/summercamp;
-            index index.html;
-        }
    }
 }
