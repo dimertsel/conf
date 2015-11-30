@@ -1,0 +1,7 @@
+deb http://apm15.kzs.ipap.local/ubuntu trusty                    main universe multiverse restricted
+deb http://apm15.kzs.ipap.local/ubuntu trusty-updates            main universe multiverse restricted
+deb http://apm15.kzs.ipap.local/ubuntu trusty-proposed           main universe multiverse restricted
+deb http://apm15.kzs.ipap.local/ubuntu trusty-backports          main universe multiverse restricted
+deb http://apm15.kzs.ipap.local/ubuntu trusty-security           main universe multiverse restricted
+
+deb http://apm15.kzs.ipap.local/saltstack trusty main
