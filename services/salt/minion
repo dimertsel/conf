@@ -1,0 +1,24 @@
+# salt-minion(1)
+# salt(7)
+
+# ------------------------------------------------------------------------------
+
+# id: minion.ipap.local
+# append_domain:
+
+master: sa2.ipap.local
+# master_finger: ''
+
+environment: prod
+
+ipv6: False
+master_port: 4506
+user: root
+pidfile: /var/run/salt-minion.pid
+pki_dir: /etc/salt/pki/minion
+open_mode: False
+
+log_file: /var/log/salt/minion
+log_level: info
+log_level_logfile: info
+
